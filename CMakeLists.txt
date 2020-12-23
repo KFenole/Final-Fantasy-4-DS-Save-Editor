@@ -6,6 +6,6 @@ cmake_minimum_required (VERSION 3.8)
 project ("Final Fantasy 4 DS Save Editor")
 
 # Add source to this project's executable.
-add_executable (CMakeTarget "Final Fantasy 4 DS Save Editor.cpp" "Final Fantasy 4 DS Save Editor.h")
+add_executable (CMakeTarget "Main.cpp" "Main.h" "SaveFile.h" "Structs.h" "SaveFile.cpp")
 
 # TODO: Add tests and install targets if needed.
