@@ -228,11 +228,10 @@ uint8_t SaveFile::getStrengthOfCharacterWithId(uint8_t id) {
 	int seekLoc = 0x25A + (id * 0x1C0); // The location of the status code
 	myFile.seekg(seekLoc); // Jump to given character's status code
 
-	char buffer[1]; // 1 Byte buffer for new value
-	myFile.read(buffer, 1);
-	cout << buffer[0] << endl;
+	unsigned char buffer[1]; // 1 Byte buffer for new value
+	myFile.read((char*)buffer, 1);
 
-	return (uint8_t) 10; //convertCharArrayToUnsignedInt(buffer, 1);
+	return convertCharArrayToUnsignedInt(buffer, 1);
 }
 uint8_t SaveFile::getStaminaOfCharacterWithId(uint8_t id) {
 	if (id > 13) {

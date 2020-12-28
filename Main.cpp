@@ -16,9 +16,12 @@ int main()
 	cout << "Version 0.4 beta" << endl;
 
 	// Ininitialize the save file with the file name
-	SaveFile save("FF4.sav");
+	cout << "Please enter the name/path of the file you wish to open (i.e. FF4.sav):" << endl;
+	string fName;
+	cin >> fName;
+	SaveFile save(fName);
 	if (!save.isGood) {
-		cout << "Error loading save file!" << endl;
+		cout << "Error loading save file, exiting!" << endl;
 		return -1;
 	}
 
@@ -26,7 +29,7 @@ int main()
 	int in = 0;
 	while (in != -1) {
 		cout << "What would you like to view/edit?" << endl;
-		cout << "1: Characters, " << "2: Gil, " << "3: Inventory, 4: Item Ids, "  << "-1: Exit" << endl;
+		cout << "1: Characters, 2: Gil, 3: Inventory, 4: Item Ids, 5: Help, -1: Exit" << endl;
 		cin >> in;
 		int act;
 		if (!checkInput(in)) {
@@ -149,9 +152,58 @@ int main()
 				for (j = 0; j < 6; j++) {
 					cout << j + 6401 << ": " << claws[j] << endl;
 				}
+				for (j = 0; j < 3; j++) {
+					cout << j + 6501 << ": " << hammers[j] << endl;
+				}
+				for (j = 0; j < 4; j++) {
+					cout << j + 6601 << ": " << axes[j] << endl;
+				}
+				for (j = 0; j < 6; j++) {
+					cout << j + 6701 << ": " << katana[j] << endl;
+				}
 				for (j = 0; j < 8; j++) {
 					cout << j + 6801 << ": " << rods[j] << endl;
 				}
+				for (j = 0; j < 7; j++) {
+					cout << j + 6901 << ": " << staffs[j] << endl;
+				}
+				for (j = 0; j < 7; j++) {
+					cout << j + 7001 << ": " << bows[j] << endl;
+				}
+				for (j = 0; j < 12; j++) {
+					cout << j + 7101 << ": " << arrows[j] << endl;
+				}
+				for (j = 0; j < 5; j++) {
+					cout << j + 7201 << ": " << whips[j] << endl;
+				}
+				for (j = 0; j < 2; j++) {
+					cout << j + 7301 << ": " << boomerangs[j] << endl;
+				}
+				for (j = 0; j < 2; j++) {
+					cout << j + 7401 << ": " << shuriken[j] << endl;
+				}
+				for (j = 0; j < 13; j++) {
+					cout << j + 8001 << ": " << shields[j] << endl;
+				}
+				for (j = 0; j < 21; j++) {
+					cout << j + 8101 << ": " << caps[j] << endl;
+				}
+				for (j = 0; j < 28; j++) {
+					cout << j + 8201 << ": " << clothes[j] << endl;
+				}
+				for (j = 0; j < 21; j++) {
+					cout << j + 8301 << ": " << rings[j] << endl;
+				}
+				cout << endl;
+				break;
+			case 5:
+				cout << "-- Manual --" << endl;
+				cout << "Select an option from the main menu by typing the corresponding number, then enter. Below you will find details on each options:" << endl;
+				cout << "1): Characters. This menu will prompt you to choose a character (again by typing the corresponding number followed by enter). The program will then display the selected character's stats, EXP, level, etc." << endl;
+				cout << "2): Gil. This will show your current gil, and you can optionally add gil to your total or set a new total. " << endl;
+				cout << "3): Inventory. This will list your inventory with ascending numbers corresponding to each item. Each of these numbers is the index of the item in the same row. Use these to select an inventory slot when editing quantities. In this section you can also insert an item at the end of your inventory. Warning: If you insert an item already in your inventory, it will create a new stack of items, not merge the amounts with the already existing stack." << endl; 
+				cout << "4): Displays all the item ids which can be referenced when inserting an item." << endl;
+				cout << endl;
 				break;
 			default:
 				break;
@@ -180,7 +232,7 @@ bool checkInput(uint32_t) {
 int characterSelection() {
 	// Gets user input and returns the character id
 	cout << endl << "Choose a character whose stats you wish to view/modify: " << endl;
-	cout << "Cecil (DK): 0, Cecil (P): 1, Kain: 2, Rosa: 3, Rydia: 4, Tellah: 6, Porom: 7, Palom: 8, Edward: 9, Cid: 11 " << endl;
+	cout << "Cecil (DK): 0, Cecil (P): 1, Kain: 2, Rosa: 3, Rydia (C): 4, Rydia (A): 5, Tellah: 6, Porom: 7, Palom: 8, Edward: 9, Yang: 10, Cid: 11 " << endl;
 	
 	int in;
 	cin >> in;
@@ -208,8 +260,34 @@ string itemIdToItemName(uint16_t id) {
 		return harps[id - 0x189D];
 	} else if (id >= 0x1901 && id <= 0x1906) {
 		return claws[id - 0x1901];
+	} else if (id >= 0x1965 && id <= 0x1967) {
+		return hammers[id - 0x1965];
+	} else if (id >= 0x19C9 && id <= 0x19CC) {
+		return axes[id - 0x19C9];
+	} else if (id >= 0x1A2D && id <= 0x1A32) {
+		return katana[id - 0x1A2D];
 	} else if (id >= 0x1A91 && id <= 0x1A98) {
 		return rods[id - 0x1A91];
+	} else if (id >= 0x1AF5 && id <= 0x1AFB) {
+		return staffs[id - 0x1AF5];
+	} else if (id >= 0x1B59 && id <= 0x1B5F) {
+		return bows[id - 0x1B59];
+	} else if (id >= 0x1BBD && id <= 0x1BC8) {
+		return arrows[id - 0x1BBD];
+	} else if (id >= 0x1C21 && id <= 0x1C25) {
+		return whips[id - 0x1C21];
+	} else if (id >= 0x1C85 && id <= 0x1C86) {
+		return boomerangs[id - 0x1C85];
+	} else if (id >= 0x1CE9 && id <= 0x1CEA) {
+		return shuriken[id - 0x1CE9];
+	} else if (id >= 0x1F41 && id <= 0x1F4D) {
+		return shields[id - 0x1F41];
+	} else if (id >= 0x1FA5 && id <= 0x1FB9) {
+		return caps[id - 0x1FA5];
+	} else if (id >= 0x2009 && id <= 0x2024) {
+		return clothes[id - 0x2009];
+	} else if (id >= 0x206D && id <= 0x2081) {
+		return rings[id - 0x206D];
 	} else {
 		return "?????";
 	}
@@ -226,14 +304,12 @@ void printStatsofChracterWithId(uint8_t id, SaveFile &save) {
 	cout << "MP: " << save.getMPofCharacterWithId(id);
 	cout << " / " << save.getMaxMPofCharacterWithId(id) << endl;
 
-	//cout << "Strength: " << save.getStrengthOfCharacterWithId(id);
-	//cout << "Strength: " << save.getStrengthOfCharacterWithId(id);
-	/*
-	cout << "  Stamina: " << save.getStaminaOfCharacterWithId(id);
-	cout << "  Speed: " << save.getSpeedOfCharacterWithId(id);
-	cout << "  Intellect: " << save.getIntellectOfCharacterWithId(id);
-	cout << "  Spirit: " << save.getSpiritOfCharacterWithId(id) << endl;
-	*/
+	cout << "Strength: " << (int) save.getStrengthOfCharacterWithId(id);
+	cout << "  Stamina: " << (int)save.getStaminaOfCharacterWithId(id);
+	cout << "  Speed: " << (int)save.getSpeedOfCharacterWithId(id);
+	cout << "  Intellect: " << (int)save.getIntellectOfCharacterWithId(id);
+	cout << "  Spirit: " << (int) save.getSpiritOfCharacterWithId(id) << endl;
+
 	cout << endl;
 
 }
