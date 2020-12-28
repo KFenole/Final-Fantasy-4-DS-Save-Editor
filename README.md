@@ -1,5 +1,5 @@
 # Final Fantasy IV (Nintendo DS) Save Editor
-## Version 0.4 Beta
+## Version 0.5 Beta
 
 This project is currently in beta.
 Disclaimer: Please make backups in case something goes wrong (unlikely, but possible). I am not responsible for loss of data or corruption of data!
