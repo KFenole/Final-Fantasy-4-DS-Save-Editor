@@ -37,4 +37,8 @@ struct character {
 	uint8_t speed; // 0x25C
 	uint8_t intellect; // 0x25D
 	uint8_t spirit; // 0x25E
+    
+    /* Party Slot */
+    int partySlot;
+    uint8_t id;
 };

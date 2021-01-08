@@ -1,4 +1,4 @@
-﻿// Kyle Fenole
+// Kyle Fenole
 // kfenole.com
 //
 // Main.h
@@ -26,7 +26,7 @@ std::string itemIdToItemName(uint16_t id);
 /*  */
 void printStatsofChracterWithId(uint8_t id, SaveFile &save);
 
-std::string	 characters[] = { "Cecil (Dark Knight)", "Cecil (Paladin)", "Kain", "Rosa", "Rydia (C)", "Rydia (A)", "Tellah", "Porom", "Palom", "Edward", "Yang", "Cid", "12", "13" };
+std::string	 characters[] = { "Cecil (Dark Knight)", "Cecil (Paladin)", "Kain", "Rosa", "Rydia (Child)", "Rydia (Adult)", "Tellah", "Porom", "Palom", "Edward", "Yang", "Cid", "Edge", "Fusoya" };
 /* --------
  Item Arrays
 ---------*/
@@ -71,3 +71,10 @@ std::string clothes[] = { "Clothing", "Prison Garb", "Leather Clothing", "Bard's
 // Rings - Indexing Offset 8301 (0x206D)
 std::string rings[] = { "Ruby Rings", "Cursed Ring", "Iron Gloves", "Dark Gloves", "Iron Armlet", "Power Armlet", "Hades Gloves", "Demon Gloves", "Silver Armlet", "Gauntlets", "Rune Armlet", "Mythril Gloves", "Diamond Armlet", "Diamond Gloves", "Genji Gloves", "Dragon Gloves", "Giant's Gloves", "Crystal Gloves", "Protect Ring", "Crytal Ring", "Onion Gloves" };
 
+// Key Items
+// Story Key Items - Indexing Offset 0x2329 (x15)
+std::string keyItems1[] = { "Frying Pan", "Adamantite", "????", "Sand Pearl", "Dark Matter", "Earth Crystal", "Rat Tail", "Barron Key", "Whisperweed", "Pink Tail", "Carnelian Signet", "Magma Stone", "Dark Crystal", "Luca’s Necklace", "Lugae’s Key" };
+// Summon Items & Augments - Indexing Offset 0x238C (x23)
+std::string keyItems2[] = { "Goblin", "Bomb", "Cockatrice", "Mindflayer", "Bardsong", "Salve", "Hide", "Twincast", "Cry", "Bluff", "Recall", "Fast Talker", "Dualcast", "Analyze", "Upgrade", "Adrenaline", "Focus", "Brace", "Kick", "Bless", "Last Stand", "Phoenix", "Limit Break" };
+// Indexing offset 0x23B0 (x23)
+std::string keyItems3[] = { "Auto Potion", "Omnicasting", "Item Lore", "Counter", "MP +50%", "?????", "Piercing Magic", "HP +50%", "?????", "Reach", "Level Lust", "Gil Farmer", "Treasure Hunter", "Curse", "Tsunami", "Whirlwind", "Inferno", "Draw Attacks", "Eye Gouge", "Safe Travel", "Twincast", "Twincast", "Darkness" };

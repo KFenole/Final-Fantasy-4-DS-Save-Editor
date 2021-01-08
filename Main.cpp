@@ -1,4 +1,4 @@
-﻿// Kyle Fenole
+// Kyle Fenole
 // kfenole.com
 // 
 // Main.cpp
@@ -13,7 +13,7 @@ using namespace std;
 int main()
 {
 	cout << "Welcome to Final Fantasy IV DS Save Editor." << endl;
-	cout << "Version 0.4 beta" << endl;
+	cout << "Version 0.6 beta" << endl;
 
 	// Ininitialize the save file with the file name
 	cout << "Please enter the name/path of the file you wish to open (i.e. FF4.sav):" << endl;
@@ -28,18 +28,15 @@ int main()
 	/* Get user input */
 	int in = 0;
 	while (in != -1) {
-		cout << "What would you like to view/edit?" << endl;
-		cout << "1: Characters, 2: Gil, 3: Inventory, 4: Item Ids, 5: Help, -1: Exit" << endl;
+		cout << "What would you like to view/edit? (Save Slot #" << save.getSaveSlot() << ")" << endl;
+		cout << "1: Characters, 2: Edit Party, 3: Gil, 4: Inventory, 5: Key Items, 6: Item Ids, 7: Switch Save Slot, 0: Help, -1: Exit" << endl;
 		cin >> in;
 		int act;
 		if (!checkInput(in)) {
 			break;
 		} else {
 			switch (in) {
-			case 0:
-				break;
 			case 1:
-				//printPartyInfo();
 				int id;
 				id = characterSelection();
 				printStatsofChracterWithId(id, save);
@@ -61,7 +58,27 @@ int main()
 					cout << endl << endl;
 				}
 				break;
-			case 2:
+            case 2:
+                cout << "Current Party Members:" << endl;
+                character * party;
+                party = save.getPartyMembers();
+                int i;
+                for (i = 0; i < 5; i++) {
+                    if (party[i].partySlot != -1) {
+                        cout << "Slot#" << i + 1 << ": " << characters[party[i].id] << endl;
+                    }
+                }
+                cout << "Would you like to do 0: Nothing, 1: Switch Character at index?" << endl;
+                cin >> act;
+                if (act == 1) {
+                    cout << "Which party slot do you want to modify?" << endl;
+                    cin >> act;
+                    save.setPartyMemberCharacterIDAtSlot(act - 1, characterSelection());
+                }
+                delete[] party;
+                cout << endl;
+                break;
+			case 3:
 				cout << "You have " << save.getGil() << " gil!" << endl;
 				cout << "Would you like to do 0: Nothing, 1: Add Gil, 2: Set Gil?" << endl;
 				cin >> act;
@@ -80,16 +97,16 @@ int main()
 					cout << endl << endl;
 				}
 				break;
-			case 3:
+			case 4:
 				uint16_t len;
 				len = save.getNumberOfFilledInventorySlots();
 				item* inventory;
 				inventory = save.getAllItemsInInventory();
-				int i;
-				for (i = 0; i < len; i++) {
+
+                for (i = 0; i < len; i++) {
 					cout << i << ": " << itemIdToItemName(inventory[i].id) << " (x" << inventory[i].quantity << ")" << endl;
 				}
-				cout << "Would you like to do 0: Nothing, 1: Edit Quantity, 2: Insert Item" << endl;
+				cout << "Would you like to do 0: Nothing, 1: Edit Quantity, 2: Edit Kind, 3: Insert Item" << endl;
 				cin >> act;
 				if (act == 1) {
 					uint16_t index;
@@ -107,8 +124,23 @@ int main()
 						break;
 					}
 					save.editItemQuantityAtIndex(index, newQuantity);
-				}
-				else if (act == 2) {
+				} else if (act == 2) {
+                    uint16_t index;
+                    // Get the item id for the item
+                    cout << "Please enter the index of the item you wish to edit: ";
+                    cin >> index;
+                    if (!checkInput(index)) {
+                        break;
+                    }
+                    // Get the quantity
+                    cout << "Please enter the id of the item: ";
+                    int newQuantity;
+                    cin >> newQuantity;
+                    if (!checkInput(newQuantity)) {
+                        break;
+                    }
+                    save.editItemIdAtIndex(index, newQuantity);
+                } else if (act == 3) {
 					item newItem;
 					uint16_t newId;
 					// Get the item id for the item
@@ -131,7 +163,71 @@ int main()
 					cout << endl << endl;
 				}
 				break;
-			case 4:
+            case 5:
+                len = save.getNumberOfFilledKeyInventorySlots();
+                inventory = save.getAllKeyItemsInInventory();
+
+                for (i = 0; i < len; i++) {
+                    cout << i << ": " << itemIdToItemName(inventory[i].id) << " (x" << inventory[i].quantity << ")" << endl;
+                }
+                cout << "Would you like to do 0: Nothing, 1: Edit Quantity, 2: Edit Kind, 3: Insert Item" << endl;
+                cin >> act;
+                if (act == 1) {
+                    uint16_t index;
+                    // Get the item id for the item
+                    cout << "Please enter the index of the key item you wish to edit: ";
+                    cin >> index;
+                    if (!checkInput(index)) {
+                        break;
+                    }
+                    // Get the quantity
+                    cout << "Please enter the new quantity of the key item: ";
+                    int newQuantity;
+                    cin >> newQuantity;
+                    if (!checkInput(newQuantity)) {
+                        break;
+                    }
+                    save.editKeyItemQuantityAtIndex(index, newQuantity);
+                } else if (act == 2) {
+                    uint16_t index;
+                    // Get the item id for the item
+                    cout << "Please enter the index of the key item you wish to edit: ";
+                    cin >> index;
+                    if (!checkInput(index)) {
+                        break;
+                    }
+                    // Get the quantity
+                    cout << "Please enter the id of the key item: ";
+                    int newQuantity;
+                    cin >> newQuantity;
+                    if (!checkInput(newQuantity)) {
+                        break;
+                    }
+                    save.editKeyItemIdAtIndex(index, newQuantity);
+                } else if (act == 3) {
+                    item newItem;
+                    uint16_t newId;
+                    // Get the item id for the item
+                    cout << "Please enter the id of the key item you wish to insert: ";
+                    cin >> newId;
+                    if (!checkInput(newId)) {
+                        break;
+                    }
+                    newItem.id = newId; // set the item id
+                    uint16_t newQuantity;
+                    // Get the quantity
+                    cout << "Please enter the quantity of the key item you wish to insert: ";
+                    cin >> newQuantity;
+                    if (!checkInput(newQuantity)) {
+                        break;
+                    }
+                    newItem.quantity = newQuantity;
+                    save.addKeyItem(newItem);
+                } else {
+                    cout << endl << endl;
+                }
+                break;
+			case 6:
 				int j;
 				cout << "Items Ids: Item Names" << endl;
 				for (j = 0; j < 63; j++) {
@@ -194,12 +290,35 @@ int main()
 				for (j = 0; j < 21; j++) {
 					cout << j + 8301 << ": " << rings[j] << endl;
 				}
+                cout << "-- Key Items --" << endl;
+                for (j = 0; j < 15; j++) {
+                    cout << j + 9001 << ": " << keyItems1[j] << endl;
+                }
+                for (j = 0; j < 23; j++) {
+                    cout << j + 9100 << ": " << keyItems2[j] << endl;
+                }
+                for (j = 0; j < 23; j++) {
+                    cout << j + 9136 << ": " << keyItems3[j] << endl;
+                }
+
 				cout << endl;
 				break;
-			case 5:
+            case 7:
+                // Get the save slot
+                cout << "Please enter the save slot (1-3) you wish to edit: ";
+                int saveSlot;
+                cin >> saveSlot;
+                // Make sure the save slot is valid
+                if (!checkInput(saveSlot) || saveSlot < 1 || saveSlot > 3) {
+                    cout << "Invalid save slot entered, using slot 1" << endl;
+                    saveSlot = 1;
+                }
+                save.setSaveSlot(saveSlot);
+                break;
+			case 0:
 				cout << "-- Manual --" << endl;
 				cout << "Select an option from the main menu by typing the corresponding number, then enter. Below you will find details on each options:" << endl;
-				cout << "1): Characters. This menu will prompt you to choose a character (again by typing the corresponding number followed by enter). The program will then display the selected character's stats, EXP, level, etc." << endl;
+				cout << "1): Characters. This menu will prompt you to choose a character (again by typing the corresponding number followed by enter). The program will then display the selected character's stats, EXP, level, etc. You may choose to add EXP or heal the selected character. Note: Character changes will not appear on loading screen but will take effect once the save is loaded. Note: To level up after adding EXP, complete a battle." << endl;
 				cout << "2): Gil. This will show your current gil, and you can optionally add gil to your total or set a new total. " << endl;
 				cout << "3): Inventory. This will list your inventory with ascending numbers corresponding to each item. Each of these numbers is the index of the item in the same row. Use these to select an inventory slot when editing quantities. In this section you can also insert an item at the end of your inventory. Warning: If you insert an item already in your inventory, it will create a new stack of items, not merge the amounts with the already existing stack." << endl; 
 				cout << "4): Displays all the item ids which can be referenced when inserting an item." << endl;
@@ -231,8 +350,8 @@ bool checkInput(uint32_t) {
 
 int characterSelection() {
 	// Gets user input and returns the character id
-	cout << endl << "Choose a character whose stats you wish to view/modify: " << endl;
-	cout << "Cecil (DK): 0, Cecil (P): 1, Kain: 2, Rosa: 3, Rydia (C): 4, Rydia (A): 5, Tellah: 6, Porom: 7, Palom: 8, Edward: 9, Yang: 10, Cid: 11 " << endl;
+	cout << endl << "Select a character: " << endl;
+	cout << "Cecil (DK): 0, Cecil (P): 1, Kain: 2, Rosa: 3, Rydia (C): 4, Rydia (A): 5, Tellah: 6, Porom: 7, Palom: 8, Edward: 9, Yang: 10, Cid: 11, Edge: 12, Fusoya: 13" << endl;
 	
 	int in;
 	cin >> in;
@@ -288,7 +407,13 @@ string itemIdToItemName(uint16_t id) {
 		return clothes[id - 0x2009];
 	} else if (id >= 0x206D && id <= 0x2081) {
 		return rings[id - 0x206D];
-	} else {
+    } else if (id >= 0x2329 && id <= 0x2337) {
+        return keyItems1[id - 0x2329];
+    } else if (id >= 0x238C && id <= 0x23A2) {
+        return keyItems2[id - 0x238C];
+    } else if (id >= 0x23B0 && id <= 0x23C6) {
+        return keyItems3[id - 0x23B0];
+    } else {
 		return "?????";
 	}
 }
